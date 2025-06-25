@@ -27267,6 +27267,7 @@ async function wait(milliseconds) {
  */
 async function run() {
     try {
+        console.log(`Hye worlds!!!!!!!`);
         const ms = coreExports.getInput('milliseconds');
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
         coreExports.debug(`Waiting ${ms} milliseconds ...`);

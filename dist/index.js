@@ -27253,9 +27253,11 @@ var coreExports = requireCore();
  * @returns Resolves with 'done!' after the wait is over.
  */
 async function wait(milliseconds) {
-    return new Promise((resolve) => {
-        if (isNaN(milliseconds))
-            throw new Error('milliseconds is not a number');
+    return new Promise((resolve, reject) => {
+        if (isNaN(milliseconds)) {
+            reject(new Error('milliseconds is not a number'));
+            return;
+        }
         setTimeout(() => resolve('done!'), milliseconds);
     });
 }
@@ -27267,13 +27269,16 @@ async function wait(milliseconds) {
  */
 async function run() {
     try {
-        console.log(`Hye worlds!!!!!!!`);
         const ms = coreExports.getInput('milliseconds');
+        const milliseconds = parseInt(ms, 10);
+        if (isNaN(milliseconds) || milliseconds < 0) {
+            throw new Error(`Invalid milliseconds value: ${ms}. Must be a non-negative number.`);
+        }
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-        coreExports.debug(`Waiting ${ms} milliseconds ...`);
+        coreExports.debug(`Waiting ${milliseconds} milliseconds ...`);
         // Log the current timestamp, wait, then log the new timestamp
         coreExports.debug(new Date().toTimeString());
-        await wait(parseInt(ms, 10));
+        await wait(milliseconds);
         coreExports.debug(new Date().toTimeString());
         // Set outputs for other workflow steps to use
         coreExports.setOutput('time', new Date().toTimeString());

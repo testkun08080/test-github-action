@@ -56,7 +56,7 @@ describe('main.ts', () => {
     // Verify that the action was marked as failed.
     expect(core.setFailed).toHaveBeenNthCalledWith(
       1,
-      'milliseconds is not a number'
+      'Invalid milliseconds value: this is not a number. Must be a non-negative number.'
     )
   })
 })

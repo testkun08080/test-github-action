@@ -8,15 +8,21 @@ import { wait } from './wait.js'
  */
 export async function run(): Promise<void> {
   try {
-    console.log(`Hye worlds!!!!!!!`)
     const ms: string = core.getInput('milliseconds')
+    const milliseconds = parseInt(ms, 10)
+
+    if (isNaN(milliseconds) || milliseconds < 0) {
+      throw new Error(
+        `Invalid milliseconds value: ${ms}. Must be a non-negative number.`
+      )
+    }
 
     // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
+    core.debug(`Waiting ${milliseconds} milliseconds ...`)
 
     // Log the current timestamp, wait, then log the new timestamp
     core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
+    await wait(milliseconds)
     core.debug(new Date().toTimeString())
 
     // Set outputs for other workflow steps to use
